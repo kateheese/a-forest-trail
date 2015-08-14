@@ -34,6 +34,9 @@ walkBtn.addEventListener('click', function() {
     }, 3000);
   //increases number of steps by 1 with each click
   userStatus.steps += 1;
+  //decrease engery by 10 with each step
+  var energyCount = Math.floor(Math.random()* 10 + 1);
+  userStatus.energy -= energyCount;
   //Update the DOM with each click
   updateUserStatus();
   //display'you continue down the trail' to the left after each click
