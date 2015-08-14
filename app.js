@@ -2,7 +2,8 @@
   var userStatus = {
     energy: 100,
     steps: 0,
-    berries: 0
+    berries: 0,
+    water: 0
   };
 
   //get the status div
@@ -40,10 +41,12 @@ walkBtn.addEventListener('click', function() {
   walkingText.innerHTML = 'you continue down the trail';
   document.getElementById('left').appendChild(walkingText);
 
-  if(userStatus.steps % 2 === 0) {
-    //get buttons div
-    var buttonsDiv = document.getElementById('buttons');    
-    //create 'pick berrie' button
+  //get buttons div
+    var buttonsDiv = document.getElementById('buttons');
+
+  //Prompt user to pick berries every 10 steps
+  if(userStatus.steps % 10 === 0) {    
+    //create 'pick berries' button
     var berryBtn = document.createElement('button');
     berryBtn.id = 'pick-berries'
     berryBtn.innerHTML = 'pick berries';
@@ -53,7 +56,7 @@ walkBtn.addEventListener('click', function() {
     //Events that occur when the 'pick berries' button is clicked
     berryBtn.addEventListener('click', function() {
       //collect random number of berries between 1 and 10
-      var berryCount = Math.floor(Math.random()* (10) + 1);
+      var berryCount = Math.floor(Math.random()* 10 + 1);
       userStatus.berries += berryCount;
       //Update the DOM with each click
       updateUserStatus();
@@ -65,6 +68,39 @@ walkBtn.addEventListener('click', function() {
       document.getElementById("buttons").removeChild(berryBtn);
     });
   }
+
+  //Prompt user to look for water every 20 steps
+  if(userStatus.steps % 20 === 0) {
+    //create 'look for water' button
+    var waterBtn = document.createElement('button');
+    waterBtn.id = 'water'
+    waterBtn.innerHTML = 'look for water';
+    //add 'look for water' button to buttons div
+    buttonsDiv.appendChild(waterBtn);
+
+    //Events that occur when the 'look for water' button is clicked
+    waterBtn.addEventListener('click', function() {
+      //50% chance of finding water
+      var waterCount = Math.floor(Math.random()* 2 + 1);
+      var waterText = document.createElement('div');
+      if (waterCount === 1) {
+        //display 'you found water'
+        waterText.innerHTML = 'you found water';
+        document.getElementById('left').appendChild(waterText);
+        //increase water by 1 when water is found
+        userStatus.water += 1;
+        //Update the DOM with each click
+        updateUserStatus();
+      } else {
+        //display 'you could not find water'
+        waterText.innerHTML = 'you could not find any water';
+        document.getElementById('left').appendChild(waterText);
+      }
+      //remove 'look for water' button
+      document.getElementById("buttons").removeChild(waterBtn);
+    });
+  }
+
 });
 
 //Update DOM on page load
