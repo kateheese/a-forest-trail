@@ -176,6 +176,39 @@
         document.getElementById("buttons").removeChild(waterBtn);
       });
     }
+
+    //Prompt user to attack animal
+    if(userStatus.steps % 50 === 0) {
+      if (buttonsDiv.contains(document.getElementById('attack')) === false) {
+        //create 'attack animal' button
+        var attackBtn = document.createElement('button');
+        attackBtn.id = 'attack'
+        attackBtn.innerHTML = 'attack animal';
+        //add 'attack animal' button to buttons div
+        buttonsDiv.appendChild(attackBtn);
+
+        //Events that occur when the 'attack animal' button is clicked
+        attackBtn.addEventListener('click', function() {
+          //50% chance of defeating animal
+          var attackCount = Math.floor(Math.random()* 2 + 1);
+          var attackText = document.createElement('div');
+          if (attackCount === 1) {
+            //display 'you defeated the animal and did not lose energy'
+            attackText.innerHTML = 'you defeated the animal and did not lose energy';
+            document.getElementById('left').appendChild(attackText);
+          } else {
+            //display 'you were wounded by the animal and lost energy'
+            attackText.innerHTML = 'you were wounded by the animal and lost energy';
+            document.getElementById('left').appendChild(attackText);
+            userStatus.energy -= 10;
+            //Update the DOM with each click
+            updateUserStatus();
+          }
+          //remove 'attack animal' button
+          document.getElementById("buttons").removeChild(attackBtn);
+        });
+      }
+    }
   });
 
 //Update DOM on page load
