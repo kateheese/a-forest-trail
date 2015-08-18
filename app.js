@@ -71,38 +71,41 @@
         //remove 'pick berries' button
         document.getElementById("buttons").removeChild(berryBtn);
 
-        (function eatBerries() {
-          var berryInt = setInterval(function() {
-            //create 'eat berries' button
-            var eatBerriesBtn = document.createElement('button');
-            eatBerriesBtn.id = 'eat-berries'
-            eatBerriesBtn.innerHTML = 'eat berries';
-            //add 'eat berries' button to buttons div
-            buttonsDiv.appendChild(eatBerriesBtn);
+        if (buttonsDiv.contains(document.getElementById('eat-berries')) === false) {
+          (function eatBerries() {
+            var berryInt = setInterval(function() {
+              //create 'eat berries' button
+              var eatBerriesBtn = document.createElement('button');
+              eatBerriesBtn.id = 'eat-berries'
+              eatBerriesBtn.innerHTML = 'eat berries';
+              //add 'eat berries' button to buttons div
+              buttonsDiv.appendChild(eatBerriesBtn);
 
-            if(buttonsDiv.contains(document.getElementById('eat-berries'))) {
-              clearInterval(berryInt);
-            } 
+              //stop creating 'eat berries' button if button already exists
+              if(buttonsDiv.contains(document.getElementById('eat-berries'))) {
+                clearInterval(berryInt);
+              } 
 
-            eatBerriesBtn.addEventListener('click', function() {
-              //On click of button decreases the berries count by 1, and increases energy by 2
-              userStatus.berries -= 1;
-              userStatus.energy += 2;
-              //Update the DOM with each click
-              updateUserStatus();
-              //display 'you ate berries and gained energy' every time the 'eat berries' button is clicked
-              var eatBerriesText = document.createElement('div');
-              eatBerriesText.innerHTML = 'you ate berries and gained energy';
-              document.getElementById('left').appendChild(eatBerriesText);
-              //remove 'eat berries' button
-              document.getElementById("buttons").removeChild(eatBerriesBtn);
-              //If userStatus berries is greater than zero, call eat berries function
-              if (userStatus.berries > 0) {
-                eatBerries();
-              }
-            })
-          }, 10000);
-        })();
+              eatBerriesBtn.addEventListener('click', function() {
+                //On click of button decreases the berries count by 1, and increases energy by 2
+                userStatus.berries -= 1;
+                userStatus.energy += 2;
+                //Update the DOM with each click
+                updateUserStatus();
+                //display 'you ate berries and gained energy' every time the 'eat berries' button is clicked
+                var eatBerriesText = document.createElement('div');
+                eatBerriesText.innerHTML = 'you ate berries and gained energy';
+                document.getElementById('left').appendChild(eatBerriesText);
+                //remove 'eat berries' button
+                document.getElementById("buttons").removeChild(eatBerriesBtn);
+                //If userStatus berries is greater than zero, call eat berries function
+                if (userStatus.berries > 0) {
+                  eatBerries();
+                }
+              })
+            }, 10000);
+          })();
+        }
       });
     }
 
@@ -128,6 +131,42 @@
           userStatus.water += 1;
           //Update the DOM with each click
           updateUserStatus();
+
+          if (buttonsDiv.contains(document.getElementById('drink-water')) === false) {
+            (function drinkWater() {
+              var waterInt = setInterval(function() {
+                //create 'drink water' button
+                var drinkWaterBtn = document.createElement('button');
+                drinkWaterBtn.id = 'drink-water'
+                drinkWaterBtn.innerHTML = 'drink water';
+                //add 'drink water' button to buttons div
+                buttonsDiv.appendChild(drinkWaterBtn);
+
+                //stop creating 'drink water' button if button already exists
+                if(buttonsDiv.contains(document.getElementById('drink-water'))) {
+                  clearInterval(waterInt);
+                } 
+
+                drinkWaterBtn.addEventListener('click', function() {
+                  //On click of button decreases the water count by 1, and increases energy by 10
+                  userStatus.water -= 1;
+                  userStatus.energy += 10;
+                  //Update the DOM with each click
+                  updateUserStatus();
+                  //display 'you drank water and gained energy' every time the 'drink water' button is clicked
+                  var drinkWaterText = document.createElement('div');
+                  drinkWaterText.innerHTML = 'you drank water and gained energy';
+                  document.getElementById('left').appendChild(drinkWaterText);
+                  //remove 'drink water' button
+                  document.getElementById("buttons").removeChild(drinkWaterBtn);
+                  //If userStatus water is greater than zero, call drinkWater function
+                  if (userStatus.water > 0) {
+                    drinkWater();
+                  }
+                })
+              }, 5000);
+            })();
+          }
         } else {
           //display 'you could not find water'
           waterText.innerHTML = 'you could not find any water';
